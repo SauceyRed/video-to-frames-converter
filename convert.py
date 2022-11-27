@@ -53,6 +53,7 @@ def FrameCapture(file_path, _dir, quality, verbose):
 	if verbose:
 			print("FPS: " + str(video.get(cv2.CAP_PROP_FPS)))
 			print("Frames in video: " + str(video.get(cv2.CAP_PROP_FRAME_COUNT)))
+			print("Compression quality " + str(quality))
 			print("Starting conversion.")
 
 	start_time = time()
