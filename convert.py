@@ -22,6 +22,7 @@ from math import floor
 parser = argparse.ArgumentParser()
 parser.add_argument("path")
 parser.add_argument("--output-dir", "-o", "-O")
+parser.add_argument("--quality", "-q", "-Q", type=int)
 parser.add_argument("--verbose", "-v", "-V", action="store_true")
 
 def CalcDuration(duration):
@@ -34,7 +35,7 @@ def CalcDuration(duration):
 	if minutes < 10: minutes = "0" + str(minutes)
 	return hours, minutes, seconds
 
-def FrameCapture(file_path, _dir, verbose):
+def FrameCapture(file_path, _dir, quality, verbose):
 	out_dir = path.join(_dir, "frames")
 	if verbose: print("Output directory: " + str(out_dir))
 
@@ -67,7 +68,7 @@ def FrameCapture(file_path, _dir, verbose):
 			frame_count += 1
 			continue
 		if verbose: print(f"Writing frame {frame_count} to file...")
-		cv2.imwrite(image_dir, frame, [cv2.IMWRITE_JPEG_QUALITY, 100])
+		cv2.imwrite(image_dir, frame, [cv2.IMWRITE_JPEG_QUALITY, quality])
 		if verbose: print(f"Written frame {frame_count} to file: {image_dir}")
 
 		frame_count += 1
@@ -79,4 +80,5 @@ def FrameCapture(file_path, _dir, verbose):
 if __name__ == "__main__":
 	args = parser.parse_args()
 	_dir = args.output_dir if args.output_dir else getcwd()
-	FrameCapture(args.path, _dir, args.verbose)
+	quality = args.quality if args.quality else 95
+	FrameCapture(args.path, _dir, quality, args.verbose)
